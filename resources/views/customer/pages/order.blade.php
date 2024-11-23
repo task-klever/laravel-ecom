@@ -67,11 +67,11 @@
                                             @endif
                                         </td>
                                         <td>
-<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Action
 </button>
 <div class="dropdown-menu dropdown-menu-right">
-    <a href="" class="dropdown-item" data-toggle="modal" data-target="#modd{{ $i }}"><i class="fa fa-eye"></i> Details</a>
+    <a href="" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modd{{ $i }}"><i class="fa fa-eye"></i> Details</a>
 </div>										
 <div class="modal fade" id="modd{{ $i }}">
     <div class="modal-dialog modal-lg" role="document">

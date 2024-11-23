@@ -30,7 +30,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="heading{{ $i }}">
                                 <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion1" href="#collapse{{ $i }}" aria-expanded="false" aria-controls="collapse{{ $i }}">
+                                    <a class="collapsed" role="button" data-bs-toggle="collapse" data-bs-parent="#accordion1" href="#collapse{{ $i }}" aria-expanded="false" aria-controls="collapse{{ $i }}">
                                         {{ $row->faq_title }}
                                     </a>
                                 </h4>
