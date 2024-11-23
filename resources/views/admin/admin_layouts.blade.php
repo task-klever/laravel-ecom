@@ -217,11 +217,11 @@
         <!-- General Settings -->
         @php if( in_array('General Settings', $arr_one) || $logged_user_role_id==1 ): @endphp
         <li class="nav-item {{ Request::is('admin/setting/general/*') ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting">
                 <i class="fas fa-cog"></i>
                 <span>General Settings</span>
             </a>
-            <div id="collapseSetting" class="collapse {{ Request::is('admin/setting/general/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseSetting" class="collapse {{ Request::is('admin/setting/general/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('admin.general_setting.logo') }}">Logo</a>
                     <a class="collapse-item" href="{{ route('admin.general_setting.favicon') }}">Favicon</a>
@@ -246,11 +246,11 @@
         <!-- Page Settings -->
         @php if( in_array('Page Settings', $arr_one) || $logged_user_role_id==1 ): @endphp
         <li class="nav-item {{ Request::is('admin/page/*') ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSettings" aria-expanded="true" aria-controls="collapsePageSettings">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePageSettings" aria-expanded="true" aria-controls="collapsePageSettings">
                 <i class="fas fa-paste"></i>
                 <span>Page Settings</span>
             </a>
-            <div id="collapsePageSettings" class="collapse {{ Request::is('admin/page/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapsePageSettings" class="collapse {{ Request::is('admin/page/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('admin.page_home.edit') }}">Home</a>
                     <a class="collapse-item" href="{{ route('admin.page_about.edit') }}">About</a>
@@ -277,11 +277,11 @@
         <!-- Admin Users Section -->
         @php if( in_array('Admin User Section', $arr_one) || $logged_user_role_id==1 ): @endphp
         <li class="nav-item {{ Request::is('admin/role/*') ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminUser" aria-expanded="true" aria-controls="collapseAdminUser">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdminUser" aria-expanded="true" aria-controls="collapseAdminUser">
                 <i class="fas fa-user-secret"></i>
                 <span>Admin User Section</span>
             </a>
-            <div id="collapseAdminUser" class="collapse {{ Request::is('admin/role/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseAdminUser" class="collapse {{ Request::is('admin/role/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('admin.role.index') }}">Roles</a>
                     <a class="collapse-item" href="{{ route('admin.role.user') }}">Users</a>
@@ -295,11 +295,11 @@
         <!-- Translation Section -->
         @php if( in_array('Translation Section', $arr_one) || $logged_user_role_id==1 ): @endphp
         <li class="nav-item {{ Request::is('admin/translation/front/*') ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTranslation" aria-expanded="true" aria-controls="collapseTranslation">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTranslation" aria-expanded="true" aria-controls="collapseTranslation">
                 <i class="fas fa-user-secret"></i>
                 <span>Translation Section</span>
             </a>
-            <div id="collapseTranslation" class="collapse {{ Request::is('admin/translation/front/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseTranslation" class="collapse {{ Request::is('admin/translation/front/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('admin.translation.front') }}">Front End</a>
                 </div>
@@ -337,11 +337,11 @@
         <!-- Blog Section -->
         @php if( in_array('Blog Section', $arr_one) || $logged_user_role_id==1 ): @endphp
         <li class="nav-item {{ Request::is('admin/category/*')||Request::is('admin/blog/*')||Request::is('admin/comment/*') ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBlog" aria-expanded="true" aria-controls="collapseBlog">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseBlog" aria-expanded="true" aria-controls="collapseBlog">
                 <i class="fas fa-cubes"></i>
                 <span>Blog Section</span>
             </a>
-            <div id="collapseBlog" class="collapse {{ Request::is('admin/category/*')||Request::is('admin/blog/*')||Request::is('admin/comment/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseBlog" class="collapse {{ Request::is('admin/category/*')||Request::is('admin/blog/*')||Request::is('admin/comment/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('admin.category.index') }}">Categories</a>
                     <a class="collapse-item" href="{{ route('admin.blog.index') }}">Blogs</a>
@@ -387,11 +387,11 @@
         <!-- Career Section -->
         @php if( in_array('Career Section', $arr_one) || $logged_user_role_id==1 ): @endphp
         <li class="nav-item {{ Request::is('admin/job/*') ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCareer" aria-expanded="true" aria-controls="collapseCareer">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCareer" aria-expanded="true" aria-controls="collapseCareer">
                 <i class="fas fa-user-secret"></i>
                 <span>Career Section</span>
             </a>
-            <div id="collapseCareer" class="collapse {{ Request::is('admin/job/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseCareer" class="collapse {{ Request::is('admin/job/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('admin.job.index') }}">Jobs</a>
                     <a class="collapse-item" href="{{ route('admin.job.view_application') }}">Job Applications</a>
@@ -424,11 +424,11 @@
         <!-- Product Section -->
         @php if( in_array('Product Section', $arr_one) || $logged_user_role_id==1 ): @endphp
         <li class="nav-item {{ Request::is('admin/product/*')||Request::is('admin/shipping/*')||Request::is('admin/coupon/*') ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct" aria-expanded="true" aria-controls="collapseProduct">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProduct" aria-expanded="true" aria-controls="collapseProduct">
                 <i class="fas fa-shopping-cart"></i>
                 <span>Product Section</span>
             </a>
-            <div id="collapseProduct" class="collapse {{ Request::is('admin/product/*')||Request::is('admin/shipping/*')||Request::is('admin/coupon/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseProduct" class="collapse {{ Request::is('admin/product/*')||Request::is('admin/shipping/*')||Request::is('admin/coupon/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('admin.product.index') }}">Product</a>
                     <a class="collapse-item" href="{{ route('admin.shipping.index') }}">Shipping</a>
@@ -521,11 +521,11 @@
         <!-- Subscriber -->
         @php if( in_array('Subscriber Section', $arr_one) || $logged_user_role_id==1 ): @endphp
         <li class="nav-item {{ Request::is('admin/subscriber/*') ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubscriber" aria-expanded="true" aria-controls="collapseSubscriber">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSubscriber" aria-expanded="true" aria-controls="collapseSubscriber">
                 <i class="fas fa-share-alt-square"></i>
                 <span>Subscriber Section</span>
             </a>
-            <div id="collapseSubscriber" class="collapse {{ Request::is('admin/subscriber/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseSubscriber" class="collapse {{ Request::is('admin/subscriber/*') ? 'show' : '' }}" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('admin.subscriber.index') }}">All Subscribers</a>
                     <a class="collapse-item" href="{{ route('admin.subscriber.send_email') }}">Send Email to Subscribers</a>
@@ -581,7 +581,7 @@
                     <div class="topbar-divider d-none d-sm-block"></div>
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::guard('admin')->user()->name }}</span>
                             <img class="img-profile rounded-circle" src="{{ asset('uploads/'.Auth::guard('admin')->user()->photo) }}">
                         </a>

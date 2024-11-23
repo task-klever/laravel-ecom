@@ -91,13 +91,13 @@
                 <div class="description mt_30">
                     <ul class="nav nav-pills mb-3 nav-doctor" id="pills-tab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="pills-tab-1" data-toggle="pill" href="#pills-t-1" role="tab" aria-controls="pills-t-1" aria-selected="true">{{ DEGREE }}</a>
+                            <a class="nav-link active" id="pills-tab-1" data-bs-toggle="pill" href="#pills-t-1" role="tab" aria-controls="pills-t-1" aria-selected="true">{{ DEGREE }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="pills-tab-2" data-toggle="pill" href="#pills-t-2" role="tab" aria-controls="pills-t-2" aria-selected="false">{{ DETAILS }}</a>
+                            <a class="nav-link" id="pills-tab-2" data-bs-toggle="pill" href="#pills-t-2" role="tab" aria-controls="pills-t-2" aria-selected="false">{{ DETAILS }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="pills-tab-5" data-toggle="pill" href="#pills-t-5" role="tab" aria-controls="pills-t-5" aria-selected="false">{{ VIDEO }}</a>
+                            <a class="nav-link" id="pills-tab-5" data-bs-toggle="pill" href="#pills-t-5" role="tab" aria-controls="pills-t-5" aria-selected="false">{{ VIDEO }}</a>
                         </li>
                     </ul>
                     <div class="tab-content nav-doctor-content" id="pills-tabContent">
