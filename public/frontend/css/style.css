@@ -35,6 +35,9 @@ textarea::placeholder {
 	color: #acacac!important;
 }
 
+.container{
+	position: relative;
+}
 .bg-lightblue {
 	background: #f1f5f9;
 }

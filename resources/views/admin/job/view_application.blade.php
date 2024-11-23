@@ -26,7 +26,7 @@
                             <td>{{ $row->applicant_first_name.' '.$row->applicant_last_name }}</td>
                             <td>{{ $row->job->job_title }}</td>
                             <td>
-                                <a href="" class="btn btn-warning btn-sm btn-block" data-toggle="modal" data-target="#exampleModal{{ $i }}">Applicant Detail</a>
+                                <a href="" class="btn btn-warning btn-sm btn-block" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $i }}">Applicant Detail</a>
                                 <a href="{{ URL::to('admin/job/application/delete/'.$row->id) }}" class="btn btn-danger btn-sm btn-block" onClick="return confirm('Are you sure?');">Delete</a>
                             </td>
                         </tr>

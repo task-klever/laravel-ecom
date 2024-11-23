@@ -25,7 +25,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="heading1">
                                 <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion1" href="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                    <a class="collapsed" role="button" data-bs-toggle="collapse" data-bs-parent="#accordion1" href="#collapse1" aria-expanded="false" aria-controls="collapse1">
                                         {{ HAVE_COUPON }}
                                     </a>
                                 </h4>
@@ -56,7 +56,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="heading2">
                                 <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion1" href="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                    <a class="collapsed" role="button" data-bs-toggle="collapse" data-bs-parent="#accordion1" href="#collapse2" aria-expanded="false" aria-controls="collapse2">
                                         {{ SHIPPING_INFORMATION }}
                                     </a>
                                 </h4>
@@ -121,7 +121,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="heading3">
                                 <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion1" href="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                    <a class="collapsed" role="button" data-bs-toggle="collapse" data-bs-parent="#accordion1" href="#collapse3" aria-expanded="false" aria-controls="collapse3">
                                         {{ CART_DETAIL }}
                                     </a>
                                 </h4>
