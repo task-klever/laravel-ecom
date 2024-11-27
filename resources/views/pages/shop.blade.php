@@ -15,6 +15,16 @@
     </div>
 
     <div class="page-content pt_60">
+        <div class="container my-4">
+            <form action="{{ url('/shop') }}" method="GET" class="row g-3">
+                <div class="col-auto">
+                    <input type="text" name="q" class="form-control" placeholder="Search products..." value="{{ request('q') }}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">

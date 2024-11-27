@@ -5,16 +5,51 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use DB;
+use App\Services\ElasticsearchService;
 
 class ProductController extends Controller
 {
-    public function index()
+    protected $elasticsearchService;
+
+    public function __construct(ElasticsearchService $elasticsearchService)
+    {
+        $this->elasticsearchService = $elasticsearchService;
+    }
+
+    public function index(Request $request)
     {
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $shop = DB::table('page_shop_items')->where('id', 1)->first();
-        $products = DB::table('products')->orderBy('product_order', 'asc')->where('product_status', 'Show')->paginate(12);
+        $products = null;  // Initialize the variable
 
-        return view('pages.shop', compact('shop','g_setting','products'));
+        // Handle search queries
+        $query = $request->input('q');
+        
+        if ($query) {
+            // Search products in Elasticsearch
+            $searchResults = $this->elasticsearchService->searchProducts($query);
+        
+            // Extract IDs from Elasticsearch hits
+            $productIds = collect($searchResults['hits']['hits'])->pluck('_id');
+            
+            if ($productIds->isNotEmpty()) {
+                // Fetch product details from the database
+                $products = DB::table('products')
+                    ->whereIn('id', $productIds)
+                    ->orderBy('product_order', 'asc')
+                    ->paginate(12);
+            }
+        } 
+        
+        if(!$products) {
+            // Default case: Fetch products from the database
+            $products = DB::table('products')
+                ->orderBy('product_order', 'asc')
+                ->where('product_status', 'Show')
+                ->paginate(12);
+        }
+
+        return view('pages.shop', compact('shop', 'g_setting', 'products', 'query'));
     }
 
     public function detail($slug)
@@ -251,4 +286,11 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Coupon is selected successfully!');
     }
 
+    public function searchProducts($query)
+    {
+        $elasticsearchService = new ElasticsearchService();
+        $response = $elasticsearchService->searchProducts($query);
+
+        return response()->json($response['hits']['hits']);
+    }
 }
