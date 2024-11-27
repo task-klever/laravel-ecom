@@ -7,6 +7,7 @@
             <h6 class="m-0 mt-2 font-weight-bold text-primary">View Products</h6>
             <div class="float-right d-inline">
                 <a href="{{ route('admin.product.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add New</a>
+                <a href="{{ route('admin.product.sync') }}" class="btn btn-success btn-sm"><i class="fab fa-searchengin"></i> Sync Products with Elasticsearch</a>
             </div>
         </div>
         <div class="card-body">
@@ -29,6 +30,8 @@
                             <td>
                                 <a href="{{ URL::to('admin/product/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                 <a href="{{ URL::to('admin/product/delete/'.$row->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
+                                <!-- Button to index product in Elasticsearch -->
+                                <a href="{{ URL::to('admin/product/'.$row->id.'/index') }}" class="btn btn-primary btn-sm" title="Index the product in Elasticsearch"><i class="fab fa-searchengin"></i></a>
                             </td>
                         </tr>
                     @endforeach

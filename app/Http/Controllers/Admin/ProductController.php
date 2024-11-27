@@ -8,9 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use DB;
+use App\Services\ElasticsearchService;
 
 class ProductController extends Controller
 {
+    protected $elasticsearchService;
+
+    public function __construct(ElasticsearchService $elasticsearchService)
+    {
+        $this->elasticsearchService = $elasticsearchService;
+    }
+
     public function index()
     {
         $product = Product::all();
@@ -54,7 +62,11 @@ class ProductController extends Controller
         $data['product_featured_photo'] = $final_name;
 
         $product->fill($data)->save();
-        return redirect()->route('admin.product.index')->with('success', 'Product is added successfully!');
+
+        // Index the product in Elasticsearch after saving
+        $this->elasticsearchService->indexProduct($product);
+
+        return redirect()->route('admin.product.index')->with('success', 'Product is added successfully and indexed in Elasticsearch!');
     }
 
     public function edit($id)
@@ -110,7 +122,11 @@ class ProductController extends Controller
         }
 
         $product->fill($data)->save();
-        return redirect()->route('admin.product.index')->with('success', 'Product is updated successfully!');
+
+        // Index the product in Elasticsearch after saving
+        $this->elasticsearchService->indexProduct($product);
+
+        return redirect()->route('admin.product.index')->with('success', 'Product is updated successfully and re-indexed in Elasticsearch!');
     }
 
     public function destroy($id)
@@ -120,8 +136,51 @@ class ProductController extends Controller
         }
         
         $product = Product::findOrFail($id);
+
+        // Remove the product from Elasticsearch before deleting it
+        $this->elasticsearchService->removeProductFromElasticsearch($product->id);
+
         unlink(public_path('uploads/'.$product->product_featured_photo));
         $product->delete();
-        return Redirect()->back()->with('success', 'Product is deleted successfully!');
+        return Redirect()->back()->with('success', 'Product is deleted successfully and removed from Elasticsearch!');
     }
+
+    public function indexProductInElasticsearch($productId)
+    {
+        $product = Product::find($productId); // Fetch the product by ID
+        
+        if (!$product) {
+            return redirect()->back()->withErrors(['Product not found']);
+        }
+
+        // Index the product in Elasticsearch
+        $this->elasticsearchService->indexProduct($product);
+
+        return redirect()->route('admin.product.index', $productId)
+            ->with('success', 'Product indexed successfully in Elasticsearch.');
+    }
+
+    public function syncProductsWithElasticsearch()
+    {
+        // Fetch all products from the database
+        $products = Product::all();
+
+        // Get all product IDs from Elasticsearch (you will need to adjust this query based on your index structure)
+        $existingProductIds = $this->elasticsearchService->getAllIndexedProductIds();
+
+        // Index or reindex products that exist in the database
+        foreach ($products as $product) {
+            $this->elasticsearchService->indexProduct($product);
+        }
+
+        // Remove products from Elasticsearch that no longer exist in the database
+        foreach ($existingProductIds as $productId) {
+            if (!$products->contains('id', $productId)) {
+                $this->elasticsearchService->removeProductFromElasticsearch($productId);
+            }
+        }
+
+        return redirect()->route('admin.product.index')->with('success', 'Products synchronized with Elasticsearch!');
+    }
+
 }
