@@ -567,7 +567,9 @@ Route::middleware(['admin:admin'])->group(function() {
     Route::get('admin/product/delete/{id}', [ProductControllerForAdmin::class,'destroy']);
     Route::get('admin/product/edit/{id}', [ProductControllerForAdmin::class,'edit']);
     Route::post('admin/product/update/{id}', [ProductControllerForAdmin::class,'update']);
-
+    // Add a route for indexing product in Elasticsearch
+    Route::get('admin/product/{productId}/index', [ProductControllerForAdmin::class, 'indexProductInElasticsearch'])->name('admin.product.indexElasticsearch');
+    Route::get('admin/product/sync', [ProductControllerForAdmin::class, 'syncProductsWithElasticsearch'])->name('admin.product.sync');
 
     /* --------------------------------------- */
     /* Order - Admin */
