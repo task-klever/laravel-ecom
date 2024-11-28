@@ -57,7 +57,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Retrieve an item from the cache by key.
      *
-     * @param  string|array  $key
+     * @param  string  $key
      * @return mixed
      */
     public function get($key)
@@ -77,6 +77,10 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function many(array $keys)
     {
+        if (count($keys) === 0) {
+            return [];
+        }
+
         $results = [];
 
         $values = $this->connection()->mget(array_map(function ($key) {
@@ -114,12 +118,20 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function putMany(array $values, $seconds)
     {
+        $serializedValues = [];
+
+        foreach ($values as $key => $value) {
+            $serializedValues[$this->prefix.$key] = $this->serialize($value);
+        }
+
         $this->connection()->multi();
 
         $manyResult = null;
 
-        foreach ($values as $key => $value) {
-            $result = $this->put($key, $value, $seconds);
+        foreach ($serializedValues as $key => $value) {
+            $result = (bool) $this->connection()->setex(
+                $key, (int) max(1, $seconds), $value
+            );
 
             $manyResult = is_null($manyResult) ? $result : $result && $manyResult;
         }
@@ -241,7 +253,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Remove all expired tag set entries.
      *
-     * @return bool
+     * @return void
      */
     public function flushStaleTags()
     {
@@ -280,10 +292,15 @@ class RedisStore extends TaggableStore implements LockProvider
             default => '',
         };
 
+        $defaultCursorValue = match (true) {
+            $connection instanceof PhpRedisConnection && version_compare(phpversion('redis'), '6.1.0', '>=') => null,
+            default => '0',
+        };
+
         $prefix = $connectionPrefix.$this->getPrefix();
 
-        return LazyCollection::make(function () use ($connection, $chunkSize, $prefix) {
-            $cursor = $defaultCursorValue = '0';
+        return LazyCollection::make(function () use ($connection, $chunkSize, $prefix, $defaultCursorValue) {
+            $cursor = $defaultCursorValue;
 
             do {
                 [$cursor, $tagsChunk] = $connection->scan(
@@ -305,7 +322,7 @@ class RedisStore extends TaggableStore implements LockProvider
                     yield $tag;
                 }
             } while (((string) $cursor) !== $defaultCursorValue);
-        })->map(fn (string $tagKey) => Str::match('/^'.preg_quote($prefix).'tag:(.*):entries$/', $tagKey));
+        })->map(fn (string $tagKey) => Str::match('/^'.preg_quote($prefix, '/').'tag:(.*):entries$/', $tagKey));
     }
 
     /**
@@ -380,7 +397,7 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function setPrefix($prefix)
     {
-        $this->prefix = ! empty($prefix) ? $prefix.':' : '';
+        $this->prefix = $prefix;
     }
 
     /**
