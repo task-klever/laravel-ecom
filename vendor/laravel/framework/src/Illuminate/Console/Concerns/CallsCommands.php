@@ -53,7 +53,7 @@ trait CallsCommands
     }
 
     /**
-     * Run the given the console command.
+     * Run the given console command.
      *
      * @param  \Symfony\Component\Console\Command\Command|string  $command
      * @param  array  $arguments
@@ -64,9 +64,13 @@ trait CallsCommands
     {
         $arguments['command'] = $command;
 
-        return $this->resolveCommand($command)->run(
+        $result = $this->resolveCommand($command)->run(
             $this->createInputFromArguments($arguments), $output
         );
+
+        $this->restorePrompts();
+
+        return $result;
     }
 
     /**

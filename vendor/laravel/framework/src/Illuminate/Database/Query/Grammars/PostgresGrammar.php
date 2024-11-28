@@ -3,6 +3,7 @@
 namespace Illuminate\Database\Query\Grammars;
 
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Query\JoinLateralClause;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -22,6 +23,13 @@ class PostgresGrammar extends Grammar
     ];
 
     /**
+     * The Postgres grammar specific custom operators.
+     *
+     * @var array
+     */
+    protected static $customOperators = [];
+
+    /**
      * The grammar specific bitwise operators.
      *
      * @var array
@@ -29,6 +37,13 @@ class PostgresGrammar extends Grammar
     protected $bitwiseOperators = [
         '~', '&', '|', '#', '<<', '>>', '<<=', '>>=',
     ];
+
+    /**
+     * Indicates if the cascade option should be used when truncating.
+     *
+     * @var bool
+     */
+    protected static $cascadeTruncate = true;
 
     /**
      * Compile a basic where clause.
@@ -65,6 +80,22 @@ class PostgresGrammar extends Grammar
         $operator = str_replace('?', '??', $where['operator']);
 
         return '('.$this->wrap($where['column']).' '.$operator.' '.$value.')::bool';
+    }
+
+    /**
+     * Compile a "where like" clause.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  array  $where
+     * @return string
+     */
+    protected function whereLike(Builder $query, $where)
+    {
+        $where['operator'] = $where['not'] ? 'not ' : '';
+
+        $where['operator'] .= $where['caseSensitive'] ? 'like' : 'ilike';
+
+        return $this->whereBasic($query, $where);
     }
 
     /**
@@ -324,6 +355,19 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+     * Compile an insert ignore statement using a subquery into SQL.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  array  $columns
+     * @param  string  $sql
+     * @return string
+     */
+    public function compileInsertOrIgnoreUsing(Builder $query, array $columns, string $sql)
+    {
+        return $this->compileInsertUsing($query, $columns, $sql).' on conflict do nothing';
+    }
+
+    /**
      * Compile an insert and get ID statement into SQL.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
@@ -394,6 +438,18 @@ class PostgresGrammar extends Grammar
         })->implode(', ');
 
         return $sql.$columns;
+    }
+
+    /**
+     * Compile a "lateral join" clause.
+     *
+     * @param  \Illuminate\Database\Query\JoinLateralClause  $join
+     * @param  string  $expression
+     * @return string
+     */
+    public function compileJoinLateral(JoinLateralClause $join, string $expression): string
+    {
+        return trim("{$join->type} join lateral {$expression} on true");
     }
 
     /**
@@ -604,7 +660,17 @@ class PostgresGrammar extends Grammar
      */
     public function compileTruncate(Builder $query)
     {
-        return ['truncate '.$this->wrapTable($query->from).' restart identity cascade' => []];
+        return ['truncate '.$this->wrapTable($query->from).' restart identity'.(static::$cascadeTruncate ? ' cascade' : '') => []];
+    }
+
+    /**
+     * Compile a query to get the number of open connections for a database.
+     *
+     * @return string
+     */
+    public function compileThreadCount()
+    {
+        return 'select count(*) as "Value" from pg_stat_activity';
     }
 
     /**
@@ -697,5 +763,61 @@ class PostgresGrammar extends Grammar
         }
 
         return [$attribute];
+    }
+
+    /**
+     * Substitute the given bindings into the given raw SQL query.
+     *
+     * @param  string  $sql
+     * @param  array  $bindings
+     * @return string
+     */
+    public function substituteBindingsIntoRawSql($sql, $bindings)
+    {
+        $query = parent::substituteBindingsIntoRawSql($sql, $bindings);
+
+        foreach ($this->operators as $operator) {
+            if (! str_contains($operator, '?')) {
+                continue;
+            }
+
+            $query = str_replace(str_replace('?', '??', $operator), $operator, $query);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Get the Postgres grammar specific operators.
+     *
+     * @return array
+     */
+    public function getOperators()
+    {
+        return array_values(array_unique(array_merge(parent::getOperators(), static::$customOperators)));
+    }
+
+    /**
+     * Set any Postgres grammar specific custom operators.
+     *
+     * @param  array  $operators
+     * @return void
+     */
+    public static function customOperators(array $operators)
+    {
+        static::$customOperators = array_values(
+            array_merge(static::$customOperators, array_filter(array_filter($operators, 'is_string')))
+        );
+    }
+
+    /**
+     * Enable or disable the "cascade" option when compiling the truncate statement.
+     *
+     * @param  bool  $value
+     * @return void
+     */
+    public static function cascadeOnTrucate(bool $value = true)
+    {
+        static::$cascadeTruncate = $value;
     }
 }

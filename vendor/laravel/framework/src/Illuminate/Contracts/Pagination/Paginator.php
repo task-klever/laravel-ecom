@@ -2,6 +2,11 @@
 
 namespace Illuminate\Contracts\Pagination;
 
+/**
+ * @template TKey of array-key
+ *
+ * @template-covariant TValue
+ */
 interface Paginator
 {
     /**
@@ -46,21 +51,21 @@ interface Paginator
     /**
      * Get all of the items being paginated.
      *
-     * @return array
+     * @return array<TKey, TValue>
      */
     public function items();
 
     /**
      * Get the "index" of the first item being paginated.
      *
-     * @return int
+     * @return int|null
      */
     public function firstItem();
 
     /**
      * Get the "index" of the last item being paginated.
      *
-     * @return int
+     * @return int|null
      */
     public function lastItem();
 

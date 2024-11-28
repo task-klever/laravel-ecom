@@ -85,7 +85,7 @@ class Factory
      * @param  \Closure|array|null  $callback
      * @return $this
      */
-    public function fake(Closure|array $callback = null)
+    public function fake(Closure|array|null $callback = null)
     {
         $this->recording = true;
 
@@ -212,6 +212,8 @@ class Factory
             $times, $count,
             "An expected process ran {$count} times instead of {$times} times."
         );
+
+        return $this;
     }
 
     /**
@@ -274,12 +276,16 @@ class Factory
     /**
      * Start defining a series of piped processes.
      *
-     * @param  callable  $callback
-     * @return \Illuminate\Process\Pipe
+     * @param  callable|array  $callback
+     * @return \Illuminate\Contracts\Process\ProcessResult
      */
-    public function pipe(callable $callback, ?callable $output = null)
+    public function pipe(callable|array $callback, ?callable $output = null)
     {
-        return (new Pipe($this, $callback))->run(output: $output);
+        return is_array($callback)
+            ? (new Pipe($this, fn ($pipe) => collect($callback)->each(
+                fn ($command) => $pipe->command($command)
+            )))->run(output: $output)
+            : (new Pipe($this, $callback))->run(output: $output);
     }
 
     /**

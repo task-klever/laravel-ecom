@@ -5,12 +5,9 @@
 namespace Stripe;
 
 /**
- * This object represents a customer of your business. It lets you create recurring
- * charges and track payments that belong to the same customer.
+ * This object represents a customer of your business. It lets you create recurring charges and track payments that belong to the same customer.
  *
- * Related guide: <a
- * href="https://stripe.com/docs/payments/save-during-payment">Save a card during
- * payment</a>.
+ * Related guide: <a href="https://stripe.com/docs/payments/save-during-payment">Save a card during payment</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -91,7 +88,7 @@ class Customer extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\PaymentMethod> list of PaymentMethods
+     * @return \Stripe\Collection<\Stripe\PaymentMethod> list of payment methods
      */
     public static function allPaymentMethods($id, $params = null, $opts = null)
     {
@@ -110,7 +107,7 @@ class Customer extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Customer the retrieved customer
+     * @return \Stripe\PaymentMethod the retrieved payment method
      */
     public function retrievePaymentMethod($payment_method, $params = null, $opts = null)
     {
@@ -128,7 +125,7 @@ class Customer extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\SearchResult<Customer> the customer search results
+     * @return \Stripe\SearchResult<\Stripe\Customer> the customer search results
      */
     public static function search($params = null, $opts = null)
     {

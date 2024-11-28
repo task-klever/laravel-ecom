@@ -27,6 +27,8 @@ use PHPUnit\Runner\ResultCache\NullResultCache;
 use PHPUnit\Runner\ResultCache\ResultCache;
 
 /**
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class TestSuiteSorter
@@ -156,13 +158,13 @@ final class TestSuiteSorter
             $suite->setTests($this->reverse($suite->tests()));
         } elseif ($order === self::ORDER_RANDOMIZED) {
             $suite->setTests($this->randomize($suite->tests()));
-        } elseif ($order === self::ORDER_DURATION && $this->cache !== null) {
+        } elseif ($order === self::ORDER_DURATION) {
             $suite->setTests($this->sortByDuration($suite->tests()));
         } elseif ($order === self::ORDER_SIZE) {
             $suite->setTests($this->sortBySize($suite->tests()));
         }
 
-        if ($orderDefects === self::ORDER_DEFECTS_FIRST && $this->cache !== null) {
+        if ($orderDefects === self::ORDER_DEFECTS_FIRST) {
             $suite->setTests($this->sortDefectsFirst($suite->tests()));
         }
 
@@ -207,7 +209,7 @@ final class TestSuiteSorter
     {
         usort(
             $tests,
-            fn ($left, $right) => $this->cmpDefectPriorityAndTime($left, $right)
+            fn ($left, $right) => $this->cmpDefectPriorityAndTime($left, $right),
         );
 
         return $tests;
@@ -217,7 +219,7 @@ final class TestSuiteSorter
     {
         usort(
             $tests,
-            fn ($left, $right) => $this->cmpDuration($left, $right)
+            fn ($left, $right) => $this->cmpDuration($left, $right),
         );
 
         return $tests;
@@ -227,7 +229,7 @@ final class TestSuiteSorter
     {
         usort(
             $tests,
-            fn ($left, $right) => $this->cmpSize($left, $right)
+            fn ($left, $right) => $this->cmpSize($left, $right),
         );
 
         return $tests;

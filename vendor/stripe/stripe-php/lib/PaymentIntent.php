@@ -5,18 +5,17 @@
 namespace Stripe;
 
 /**
- * A PaymentIntent guides you through the process of collecting a payment from your
- * customer. We recommend that you create exactly one PaymentIntent for each order
- * or customer session in your system. You can reference the PaymentIntent later to
+ * A PaymentIntent guides you through the process of collecting a payment from your customer.
+ * We recommend that you create exactly one PaymentIntent for each order or
+ * customer session in your system. You can reference the PaymentIntent later to
  * see the history of payment attempts for a particular session.
  *
- * A PaymentIntent transitions through <a
- * href="https://stripe.com/docs/payments/intents#intent-statuses">multiple
- * statuses</a> throughout its lifetime as it interfaces with Stripe.js to perform
+ * A PaymentIntent transitions through
+ * <a href="https://stripe.com/docs/payments/intents#intent-statuses">multiple statuses</a>
+ * throughout its lifetime as it interfaces with Stripe.js to perform
  * authentication flows and ultimately creates at most one successful charge.
  *
- * Related guide: <a
- * href="https://stripe.com/docs/payments/payment-intents">Payment Intents API</a>.
+ * Related guide: <a href="https://stripe.com/docs/payments/payment-intents">Payment Intents API</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -67,6 +66,24 @@ class PaymentIntent extends ApiResource
     use ApiOperations\Retrieve;
     use ApiOperations\Search;
     use ApiOperations\Update;
+
+    const CANCELLATION_REASON_ABANDONED = 'abandoned';
+    const CANCELLATION_REASON_AUTOMATIC = 'automatic';
+    const CANCELLATION_REASON_DUPLICATE = 'duplicate';
+    const CANCELLATION_REASON_FAILED_INVOICE = 'failed_invoice';
+    const CANCELLATION_REASON_FRAUDULENT = 'fraudulent';
+    const CANCELLATION_REASON_REQUESTED_BY_CUSTOMER = 'requested_by_customer';
+    const CANCELLATION_REASON_VOID_INVOICE = 'void_invoice';
+
+    const CAPTURE_METHOD_AUTOMATIC = 'automatic';
+    const CAPTURE_METHOD_AUTOMATIC_ASYNC = 'automatic_async';
+    const CAPTURE_METHOD_MANUAL = 'manual';
+
+    const CONFIRMATION_METHOD_AUTOMATIC = 'automatic';
+    const CONFIRMATION_METHOD_MANUAL = 'manual';
+
+    const SETUP_FUTURE_USAGE_OFF_SESSION = 'off_session';
+    const SETUP_FUTURE_USAGE_ON_SESSION = 'on_session';
 
     const STATUS_CANCELED = 'canceled';
     const STATUS_PROCESSING = 'processing';
@@ -184,7 +201,7 @@ class PaymentIntent extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\SearchResult<PaymentIntent> the payment intent search results
+     * @return \Stripe\SearchResult<\Stripe\PaymentIntent> the payment intent search results
      */
     public static function search($params = null, $opts = null)
     {

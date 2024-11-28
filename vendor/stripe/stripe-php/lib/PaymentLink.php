@@ -5,17 +5,11 @@
 namespace Stripe;
 
 /**
- * A payment link is a shareable URL that will take your customers to a hosted
- * payment page. A payment link can be shared and used multiple times.
+ * A payment link is a shareable URL that will take your customers to a hosted payment page. A payment link can be shared and used multiple times.
  *
- * When a customer opens a payment link it will open a new <a
- * href="https://stripe.com/docs/api/checkout/sessions">checkout session</a> to
- * render the payment page. You can use <a
- * href="https://stripe.com/docs/api/events/types#event_types-checkout.session.completed">checkout
- * session events</a> to track payments through payment links.
+ * When a customer opens a payment link it will open a new <a href="https://stripe.com/docs/api/checkout/sessions">checkout session</a> to render the payment page. You can use <a href="https://stripe.com/docs/api/events/types#event_types-checkout.session.completed">checkout session events</a> to track payments through payment links.
  *
- * Related guide: <a href="https://stripe.com/docs/payment-links">Payment Links
- * API</a>
+ * Related guide: <a href="https://stripe.com/docs/payment-links">Payment Links API</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -23,7 +17,7 @@ namespace Stripe;
  * @property \Stripe\StripeObject $after_completion
  * @property bool $allow_promotion_codes Whether user redeemable promotion codes are enabled.
  * @property null|int $application_fee_amount The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.
- * @property null|float $application_fee_percent This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account.
+ * @property null|float $application_fee_percent This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account.
  * @property \Stripe\StripeObject $automatic_tax
  * @property string $billing_address_collection Configuration for collecting the customer's billing address.
  * @property null|\Stripe\StripeObject $consent_collection When set, provides configuration to gather active consent from customers.
@@ -78,7 +72,7 @@ class PaymentLink extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
+     * @return \Stripe\Collection<\Stripe\LineItem> list of line items
      */
     public static function allLineItems($id, $params = null, $opts = null)
     {
