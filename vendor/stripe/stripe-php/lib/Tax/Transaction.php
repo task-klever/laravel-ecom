@@ -7,9 +7,7 @@ namespace Stripe\Tax;
 /**
  * A Tax Transaction records the tax collected from or refunded to your customer.
  *
- * Related guide: <a
- * href="https://stripe.com/docs/tax/custom#tax-transaction">Calculate tax in your
- * custom payment flow</a>.
+ * Related guide: <a href="https://stripe.com/docs/tax/custom#tax-transaction">Calculate tax in your custom payment flow</a>
  *
  * @property string $id Unique identifier for the transaction.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -78,7 +76,7 @@ class Transaction extends \Stripe\ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\Tax\TransactionLineItem> list of TaxProductResourceTaxTransactionLineItems
+     * @return \Stripe\Collection<\Stripe\Tax\TransactionLineItem> list of transaction line items
      */
     public static function allLineItems($id, $params = null, $opts = null)
     {
